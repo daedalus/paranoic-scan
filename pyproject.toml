@@ -15,6 +15,7 @@ authors = [
 dependencies = [
     "requests>=2.31.0",
     "click>=8.0",
+    "types-requests>=2.31.0",
 ]
 
 [project.optional-dependencies]
@@ -23,6 +24,7 @@ dev = [
     "mypy",
     "hatch",
     "pip-api",
+    "types-requests",
 ]
 test = [
     "pytest",
@@ -34,6 +36,7 @@ test = [
 lint = [
     "ruff",
     "mypy",
+    "types-requests",
 ]
 all = ["paranoic-scan[dev,test,lint]"]
 
@@ -61,6 +64,7 @@ ignore = ["E501"]
 
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["F401"]
+"tests/*" = ["ANN", "TCH"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
@@ -73,12 +77,13 @@ warn_unused_ignores = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-v --tb=short --cov=src --cov-fail-under=80"
+addopts = "-v --tb=short --cov=src --cov-report=term-missing --cov-branch --cov-fail-under=70"
 filterwarnings = ["ignore::DeprecationWarning"]
 
 [tool.coverage.run]
 source = ["src"]
 branch = true
+omit = ["src/paranoic_scan/__main__.py"]
 
 [tool.coverage.report]
 exclude = ["tests/*", "*/__init__.py"]

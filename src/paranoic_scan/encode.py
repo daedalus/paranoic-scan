@@ -161,6 +161,8 @@ def bin_to_text(binary: str) -> str:
         i = 0
         while i < len(binary):
             chunk = binary[i : i + 8]
+            if len(chunk) != 8:
+                return ""
             result = result + chr(int(chunk, 2))
             i = i + 8
     except (ValueError, UnicodeDecodeError):

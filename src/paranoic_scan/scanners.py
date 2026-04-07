@@ -439,11 +439,13 @@ BYPASS_PAYLOADS = [
 ]
 
 
+DEFAULT_TIMEOUT = 10
+
+
 def _get_session() -> requests.Session:
     """Create configured requests session."""
     session = requests.Session()
     session.headers["User-Agent"] = AGENTS[0]
-    session.timeout = 10
     return session
 
 
@@ -560,7 +562,7 @@ def scan_xss(url: str) -> list[dict[str, Any]]:
                 continue
 
             action = action_match.group(1)
-            method = (method_match.group(1) or "get").lower()
+            method = (method_match.group(1) if method_match else "get").lower()
 
             for payload in XSS_PAYLOADS[:1]:
                 test_data = dict.fromkeys(inputs, payload)
